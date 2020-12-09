@@ -1,1 +1,0 @@
-export DB_USERNAME="postgres" DB_NAME="foodoasisdev" DB_PASSWORD="quokkafola"
