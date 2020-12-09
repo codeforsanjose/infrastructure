@@ -6,8 +6,6 @@ locals {
   aws_profile    = "default"
   namespace      = "cfc"
   project_name   = "food-oasis"
-  domain_name    = "foodoasis.net"
-  host_name      = "aws-test.foodoasis.net"
 
   // datetime is going to be added to tags for terraform creation date
   datetime     = { date_processed = formatdate("YYYYMMDDhhmmss", timestamp()) }

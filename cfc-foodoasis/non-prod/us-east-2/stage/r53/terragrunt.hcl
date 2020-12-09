@@ -12,7 +12,7 @@ locals {
 
   # Extract out common variables for reuse
   domain_name = local.environment_vars.locals.domain_name
-  host_name   = local.environment_vars.locals.host_name
+  host_names   = local.environment_vars.locals.host_names
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -38,5 +38,5 @@ inputs = {
 
   // Input from Variables
   domain_name = local.domain_name
-  host_name   = local.host_name
+  host_names   = local.host_names
 }

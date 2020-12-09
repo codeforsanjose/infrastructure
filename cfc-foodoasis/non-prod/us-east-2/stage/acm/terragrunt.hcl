@@ -12,7 +12,7 @@ locals {
 
   # Extract out common variables for reuse
   domain_name = local.environment_vars.locals.domain_name
-  subject_alternative_names = local.environment_vars.locals.host_name
+  // subject_alternative_names = local.environment_vars.locals.host_names
 }
 # Include all settings from the root terragrunt.hcl file
 include {
