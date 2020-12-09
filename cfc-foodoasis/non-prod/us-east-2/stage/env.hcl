@@ -7,7 +7,11 @@ locals {
     "us-east-2c"
     ]
 
+  // Container env vars
+  desired_count  = 1
   container_port = 5000
+  container_memory = 512
+  container_cpu = 256
 
   // db_username = ""
   // db_name     = var.db_name

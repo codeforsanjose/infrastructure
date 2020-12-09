@@ -1,7 +1,6 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  // source = "git::git@github.com:gruntwork-io/terragrunt-infrastructure-modules-example.git//mysql?ref=v0.1.0"
   source = "git@github.com:darpham/aws-terraform-modules.git//applicationlb"
 }
 
@@ -13,19 +12,13 @@ locals {
 
   # Extract out common variables for reuse
   env                = local.environment_vars.locals.environment
-  cidr_block         = local.environment_vars.locals.cidr_block
-  availability_zones = local.environment_vars.locals.availability_zones
   container_port     = local.environment_vars.locals.container_port
   tags               = local.environment_vars.locals.tags
 
   aws_region = local.region_vars.locals.aws_region
 
   aws_account_id           = local.account_vars.locals.aws_account_id
-  namespace                = local.account_vars.locals.namespace
   project_name             = local.account_vars.locals.project_name
-  bastion_instance_type    = local.account_vars.locals.bastion_instance_type
-  cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
-  ssh_public_key_names     = local.account_vars.locals.ssh_public_key_names
 
   // Container extrapolation
   task_name = "${local.project_name}-task"
