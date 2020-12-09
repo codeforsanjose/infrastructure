@@ -1,7 +1,6 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  // source = "git::git@github.com:gruntwork-io/terragrunt-infrastructure-modules-example.git//mysql?ref=v0.1.0"
   source = "git@github.com:darpham/aws-terraform-modules.git//ecs-fargate"
 }
 
@@ -16,14 +15,20 @@ locals {
   cidr_block = local.environment_vars.locals.cidr_block
   availability_zones = local.environment_vars.locals.availability_zones
 
+  // Container
+  desired_count = local.environment_vars.locals.desired_count
+  container_cpu = local.environment_vars.locals.container_cpu
+  container_port = local.environment_vars.locals.container_port
+  container_memory = local.environment_vars.locals.container_memory
+  container_name = "${local.project_name}-${local.env}-container"
+  cluster_name = "${local.project_name}-${local.env}-cluster"
+  task_name    = "${local.project_name}-${local.env}-task"
+
   aws_region = local.region_vars.locals.aws_region
 
   aws_account_id = local.account_vars.locals.aws_account_id
   namespace = local.account_vars.locals.namespace
   project_name = local.account_vars.locals.project_name
-  bastion_instance_type    = local.account_vars.locals.bastion_instance_type
-  cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
-  ssh_public_key_names     = local.account_vars.locals.ssh_public_key_names
   
 }
 # Include all settings from the root terragrunt.hcl file
@@ -32,7 +37,7 @@ include {
 }
 
 dependencies {
-  paths = ["../network", "../rds", "../bastion"]
+  paths = ["../network", "../rds", "../bastion", "alb"]
 }
 dependency "network" {
   config_path = "../network"
@@ -44,6 +49,10 @@ dependency "rds" {
 }
 dependency "bastion" {
   config_path = "../bastion"
+  // skip_outputs = true
+}
+dependency "alb" {
+  config_path = "../alb"
   // skip_outputs = true
 }
 
@@ -58,13 +67,13 @@ inputs = {
   bastion_security_group_id = dependency.bastion.outputs.security_group_id
   aws_ssm_db_hostname_arn   = dependency.rds.outputs.aws_ssm_db_hostname_arn
   aws_ssm_db_password_arn   = dependency.rds.outputs.aws_ssm_db_password_arn
-  alb_security_group_id     = dependency.applicationlb.outputs.security_group_id
-  alb_target_group_arn      = dependency.applicationlb.outputs.alb_target_group_arn
+  alb_security_group_id     = dependency.alb.outputs.security_group_id
+  alb_target_group_arn      = dependency.alb.outputs.alb_target_group_arn
 
   // Input from Variables
-  account_id = local.account_id
-  region     = local.region
-  stage      = local.stage
+  account_id  = local.aws_account_id
+  region      = local.aws_region
+  environment = local.env
 
   // Container Variables
   desired_count    = local.desired_count
@@ -74,5 +83,4 @@ inputs = {
   container_name   = local.container_name
   cluster_name     = local.cluster_name
   task_name        = local.task_name
-  image_tag        = local.image_tag
 }
