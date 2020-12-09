@@ -1,6 +1,9 @@
 locals {
 
   environment = "stage"
+  domain_name    = "foodoasis.net"
+  host_name      = "aws-test.foodoasis.net"
+  
   cidr_block         = "10.10.0.0/16"
   availability_zones = [
     "us-east-2a",

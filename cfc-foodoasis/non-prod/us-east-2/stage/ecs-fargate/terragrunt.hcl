@@ -37,7 +37,7 @@ include {
 }
 
 dependencies {
-  paths = ["../network", "../rds", "../bastion", "alb"]
+  paths = ["../network", "../rds", "../bastion", "../alb"]
 }
 dependency "network" {
   config_path = "../network"
