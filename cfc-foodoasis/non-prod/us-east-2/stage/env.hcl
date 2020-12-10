@@ -6,8 +6,8 @@ locals {
 
   cidr_block         = "10.10.0.0/16"
   availability_zones = [
-    "us-east-2a",
-    "us-east-2c"
+    "us-west-1a",
+    "us-west-1c"
     ]
 
   // Container env vars

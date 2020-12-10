@@ -1,7 +1,7 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  source = "git@github.com:darpham/aws-terraform-modules.git//network"
+  source = "git@github.com:100Automations/terraform-aws-terragrunt-modules.git//network"
 }
 
 locals {

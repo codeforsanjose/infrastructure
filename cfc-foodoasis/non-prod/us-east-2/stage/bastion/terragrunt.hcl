@@ -1,7 +1,7 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  source = "git@github.com:darpham/aws-terraform-modules.git//bastion"
+  source = "git@github.com:100Automations/terraform-aws-terragrunt-modules.git//bastion-gh"
 }
 
 locals {
@@ -20,9 +20,9 @@ locals {
   aws_account_id = local.account_vars.locals.aws_account_id
   namespace = local.account_vars.locals.namespace
   project_name = local.account_vars.locals.project_name
-  bastion_instance_type    = local.account_vars.locals.bastion_instance_type
+  // bastion_instance_type    = local.account_vars.locals.bastion_instance_type
   cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
-  ssh_public_key_names     = local.account_vars.locals.ssh_public_key_names
+  github_usernames     = local.account_vars.locals.github_usernames
   
 }
 # Include all settings from the root terragrunt.hcl file
@@ -47,7 +47,8 @@ inputs = {
   region     = local.aws_region
 
   bastion_name             = "bastion-${local.project_name}-${local.env}"
-  bastion_instance_type    = local.bastion_instance_type
+  ssh_user = "ec2-user"
+  // bastion_instance_type    = local.bastion_instance_type
   cron_key_update_schedule = local.cron_key_update_schedule
-  ssh_public_key_names     = local.ssh_public_key_names
+  github_usernames     = local.github_usernames
 }
