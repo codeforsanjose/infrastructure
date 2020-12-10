@@ -10,7 +10,8 @@ locals {
   // datetime is going to be added to tags for terraform creation date
   datetime     = { date_processed = formatdate("YYYYMMDDhhmmss", timestamp()) }
 
-  bastion_instance_type    = "t2.micro"
+  
+  // bastion_instance_type    = "t2.micro"
   cron_key_update_schedule = "5,0,*,* * * * *"
-  ssh_public_key_names     = []
+  github_usernames     = "darpham prashantsingh071993 hector-cortes"
 }

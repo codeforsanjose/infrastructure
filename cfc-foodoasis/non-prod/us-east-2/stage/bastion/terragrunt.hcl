@@ -47,8 +47,7 @@ inputs = {
   region     = local.aws_region
 
   bastion_name             = "bastion-${local.project_name}-${local.env}"
-  ssh_user = "ec2-user"
   // bastion_instance_type    = local.bastion_instance_type
-  cron_key_update_schedule = local.cron_key_update_schedule
+  keys_update_frequency = local.cron_key_update_schedule
   github_usernames     = local.github_usernames
 }
