@@ -7,29 +7,29 @@ terraform {
 locals {
   # Automatically load environment-level variables
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
-  account_vars = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+  region_vars      = read_terragrunt_config(find_in_parent_folders("region.hcl"))
+  account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env = local.environment_vars.locals.environment
-  cidr_block = local.environment_vars.locals.cidr_block
+  env                = local.environment_vars.locals.environment
+  cidr_block         = local.environment_vars.locals.cidr_block
   availability_zones = local.environment_vars.locals.availability_zones
 
   // Container
-  desired_count = local.environment_vars.locals.desired_count
-  container_cpu = local.environment_vars.locals.container_cpu
-  container_port = local.environment_vars.locals.container_port
+  desired_count    = local.environment_vars.locals.desired_count
+  container_cpu    = local.environment_vars.locals.container_cpu
+  container_port   = local.environment_vars.locals.container_port
   container_memory = local.environment_vars.locals.container_memory
-  container_name = "${local.project_name}-${local.env}-container"
-  cluster_name = "${local.project_name}-${local.env}-cluster"
-  task_name    = "${local.project_name}-${local.env}-task"
+  container_name   = "${local.project_name}-${local.env}-container"
+  cluster_name     = "${local.project_name}-${local.env}-cluster"
+  task_name        = "${local.project_name}-${local.env}-task"
 
   aws_region = local.region_vars.locals.aws_region
 
   aws_account_id = local.account_vars.locals.aws_account_id
-  namespace = local.account_vars.locals.namespace
-  project_name = local.account_vars.locals.project_name
-  
+  namespace      = local.account_vars.locals.namespace
+  project_name   = local.account_vars.locals.project_name
+
 }
 # Include all settings from the root terragrunt.hcl file
 include {

@@ -11,18 +11,18 @@ locals {
   account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env                = local.environment_vars.locals.environment
-  container_port     = local.environment_vars.locals.container_port
-  tags               = local.environment_vars.locals.tags
+  env            = local.environment_vars.locals.environment
+  container_port = local.environment_vars.locals.container_port
+  tags           = local.environment_vars.locals.tags
 
   aws_region = local.region_vars.locals.aws_region
 
-  aws_account_id           = local.account_vars.locals.aws_account_id
-  project_name             = local.account_vars.locals.project_name
+  aws_account_id = local.account_vars.locals.aws_account_id
+  project_name   = local.account_vars.locals.project_name
 
   // Container extrapolation
   task_name = "${local.project_name}-task"
-  
+
 }
 # Include all settings from the root terragrunt.hcl file
 include {

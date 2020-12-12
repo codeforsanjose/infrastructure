@@ -7,20 +7,20 @@ terraform {
 locals {
   # Automatically load environment-level variables
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
-  account_vars = read_terragrunt_config(find_in_parent_folders("account.hcl"))
+  region_vars      = read_terragrunt_config(find_in_parent_folders("region.hcl"))
+  account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env = local.environment_vars.locals.environment
-  cidr_block = local.environment_vars.locals.cidr_block
-  availability_zones = local.environment_vars.locals.availability_zones
+  env                   = local.environment_vars.locals.environment
+  cidr_block            = local.environment_vars.locals.cidr_block
+  availability_zones    = local.environment_vars.locals.availability_zones
   db_snapshot_migration = local.environment_vars.locals.db_snapshot_migration
 
   aws_region = local.region_vars.locals.aws_region
 
-  namespace = local.account_vars.locals.namespace
+  namespace    = local.account_vars.locals.namespace
   project_name = local.account_vars.locals.project_name
-  datetime = local.account_vars.locals.datetime
+  datetime     = local.account_vars.locals.datetime
 
 }
 # Include all settings from the root terragrunt.hcl file

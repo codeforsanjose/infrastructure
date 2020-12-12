@@ -23,7 +23,7 @@ locals {
   // bastion_instance_type    = local.account_vars.locals.bastion_instance_type
   cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
   github_file              = local.account_vars.locals.github_file
-  
+
 }
 # Include all settings from the root terragrunt.hcl file
 include {
