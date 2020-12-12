@@ -13,5 +13,10 @@ locals {
   
   // bastion_instance_type    = "t2.micro"
   cron_key_update_schedule = "5,0,*,* * * * *"
-  github_usernames     = "darpham prashantsingh071993 hector-cortes"
+  github_file     = {
+    github_repo_owner           = "codeforsanjose",
+    github_repo_name            = "Infrastructure",
+    github_branch               = "main",
+    github_filepath             = "cfc-foodoasis/non-prod/us-east-2/stage/bastion/bastion_github_users",
+  }
 }
