@@ -33,11 +33,19 @@ dependencies {
 }
 dependency "network" {
   config_path = "../network"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  vpc_id = "",
+  private_subnet_ids = "",
+  private_subnet_cidrs = ""
+  }
 }
 dependency "bastion" {
   config_path = "../bastion"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  security_group_id = ""
+  }
 }
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above

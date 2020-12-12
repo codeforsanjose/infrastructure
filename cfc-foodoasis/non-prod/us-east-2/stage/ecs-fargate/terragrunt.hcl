@@ -41,19 +41,35 @@ dependencies {
 }
 dependency "network" {
   config_path = "../network"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  vpc_id = "",
+  public_subnet_ids = ""
+  }
 }
 dependency "rds" {
   config_path = "../rds"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  db_security_group_id = "",
+  aws_ssm_db_hostname_arn = "",
+  aws_ssm_db_password_arn = ""
+  }
 }
 dependency "bastion" {
   config_path = "../bastion"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  security_group_id = ""
+  }
 }
 dependency "alb" {
   config_path = "../alb"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  security_group_id = "",
+  alb_target_group_arn = ""
+  }
 }
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
@@ -64,9 +80,9 @@ inputs = {
   vpc_id                    = dependency.network.outputs.vpc_id
   public_subnet_ids         = dependency.network.outputs.public_subnet_ids
   db_security_group_id      = dependency.rds.outputs.db_security_group_id
-  bastion_security_group_id = dependency.bastion.outputs.security_group_id
   aws_ssm_db_hostname_arn   = dependency.rds.outputs.aws_ssm_db_hostname_arn
   aws_ssm_db_password_arn   = dependency.rds.outputs.aws_ssm_db_password_arn
+  bastion_security_group_id = dependency.bastion.outputs.security_group_id
   alb_security_group_id     = dependency.alb.outputs.security_group_id
   alb_target_group_arn      = dependency.alb.outputs.alb_target_group_arn
 

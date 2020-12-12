@@ -34,11 +34,18 @@ dependencies {
 }
 dependency "network" {
   config_path = "../network"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  vpc_id = "",
+  public_subnet_ids = ""
+  }
 }
 dependency "acm" {
   config_path = "../acm"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  acm_certificate_arn = ""
+  }
 }
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above

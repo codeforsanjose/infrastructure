@@ -1,61 +1,56 @@
-# from pathlib import Path
-
-# print("Hi")
-# for path in Path('.').rglob('terragrunt.hcl'):
-#     if "terragrunt-cache" not in path:
-#         print(path)
-
-# from os import listdir
-# from os.path import isfile, join
-# mypath='.'
-
-# onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-# print(onlyfiles)
-
 import os
+from time import sleep
 import glob
-# print(glob.glob("./*/terragrunt.hcl"))
-
-# terra_modules=[]
-# terra_dependencies = []
-
-# for terra_file in glob.glob("./*/terragrunt.hcl"):
-#     print(terra_file)
-#     terra_modules.append(os.path.basename(os.path.dirname(terra_file)))
-#     with open(terra_file) as terragrunt:
-#         data=terragrunt.readlines()
-#         for i in range(len(data)):
-#             if "dependencies" in data[i]:
-#                 print(data[i+1])
-#                 print(type(data[i+1]))
-
-# print(terra_modules)
-
-
-
-import hcl2
-import glob
-import pprint
-pp = pprint.pprint
-
-terra_modules = []
-terra_dependencies = []
-
-for terra_file in glob.glob("./*/terragrunt.hcl"):
-    print(terra_file)
-    terra_module_dir = os.path.basename(os.path.dirname(terra_file))
-    terra_modules.append(terra_module_dir)
-
-    # with open(terra_file, 'r') as file:
-    #     dict = hcl2.load(file)
-    #     if "dependencies" in dict:
-    #         pp(dict['dependencies'])
-
-
 import subprocess
-bashCmd = ["terragrunt", "graph-dependencies"]
-process = subprocess.Popen(bashCmd, stdout=subprocess.PIPE)
+import pathlib
 
-output, error = process.communicate()
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-print(output)
+def subprocess_cmd(command):
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True)
+    proc_stdout = process.communicate()[0].strip()
+    print(proc_stdout)
+
+def retrieve_terragrunt_modules():
+    terra_modules = []
+    for terragrunt_modules in glob.glob("./*/terragrunt.hcl"):
+        module = os.path.dirname(terragrunt_modules)
+        terra_modules.append(module)
+    terra_modules.sort()
+    print(bcolors.OKCYAN + bcolors.BOLD + "Found modules: {}\n".format(terra_modules) + bcolors.ENDC)
+    return terra_modules
+
+    # return [ os.path.dirname(module) for module in glob.glob("./*/terragrunt.hcl") ]
+
+def terragrunt_init_all(module_init_array):  
+    module_array = module_init_array
+    for module in module_array:
+        print(bcolors.OKCYAN + "\nChecking for Terragrunt Cache in {}".format(module) + bcolors.ENDC)
+        terra_cache = [ f for f in pathlib.Path(module).glob('.terragrunt-cache') ]
+        if len(terra_cache) == 0:
+            print(bcolors.OKBLUE + "Executing 'terragrunt init' for {}".format(module) + bcolors.ENDC)
+            subprocess_cmd('cd {}; terragrunt init'.format(module))
+        else:
+            print(bcolors.OKGREEN + '  .terragrunt-cache found for {}\n'.format(module) + bcolors.ENDC)
+            print(bcolors.OKGREEN + '{}'.format(module_array) + bcolors.ENDC)
+            module_array.remove(module)
+            print(bcolors.OKGREEN + '{}'.format(module_array) + bcolors.ENDC)
+
+    if len(module_array) == 0:
+        print(bcolors.OKGREEN + bcolors.BOLD + "\n All modules contain .terragrunt-cache \n" + bcolors.ENDC)
+    else:
+        print(bcolors.WARNING + "\nRE-TRYING BELOW MODULES:" + bcolors.ENDC)
+        print(bcolors.WARNING + '{}\n'.format(module_array) + bcolors.ENDC)
+        terragrunt_init_all(module_array)
+
+terragrunt_modules = retrieve_terragrunt_modules()
+terragrunt_init_all(terragrunt_modules)

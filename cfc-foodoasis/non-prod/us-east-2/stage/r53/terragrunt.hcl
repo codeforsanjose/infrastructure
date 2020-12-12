@@ -20,15 +20,14 @@ include {
 }
 
 dependencies {
-  paths = ["../acm", "../alb"]
-}
-dependency "acm" {
-  config_path = "../acm"
-  // skip_outputs = true
+  paths = ["../alb"]
 }
 dependency "alb" {
   config_path = "../alb"
-  // skip_outputs = true
+  skip_outputs = true
+  mock_outputs = {
+  lb_dns_name = ""
+  }
 }
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
