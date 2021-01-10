@@ -1,7 +1,7 @@
 locals {
 
   environment = "stage"
-  domain_name = "foodoasis.net"
+  domain_name = "*.foodoasis.net"
   host_names  = ["aws-test.foodoasis.net"]
 
   cidr_block = "10.10.0.0/16"
