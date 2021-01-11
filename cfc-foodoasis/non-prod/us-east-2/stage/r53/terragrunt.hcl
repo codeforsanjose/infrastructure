@@ -24,7 +24,7 @@ dependencies {
 }
 dependency "alb" {
   config_path = "../alb"
-  skip_outputs = true
+  // skip_outputs = true
   mock_outputs = {
   lb_dns_name = ""
   }

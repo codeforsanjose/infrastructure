@@ -1,8 +1,8 @@
 locals {
 
   environment = "stage"
-  domain_name = "*.foodoasis.net"
-  host_names  = ["aws-test.foodoasis.net"]
+  domain_name = "foodoasis.net"
+  host_names  = ["aws-test.foodoasis.net", "aws-test2.foodoasis.net"]
 
   cidr_block = "10.10.0.0/16"
   availability_zones = [
@@ -15,6 +15,7 @@ locals {
   container_port   = 5000
   container_memory = 512
   container_cpu    = 256
+  health_check_path = "/health"
 
   // db_username = ""
   // db_name     = var.db_name

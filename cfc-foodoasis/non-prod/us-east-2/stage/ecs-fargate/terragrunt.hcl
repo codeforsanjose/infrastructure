@@ -16,13 +16,14 @@ locals {
   availability_zones = local.environment_vars.locals.availability_zones
 
   // Container
-  desired_count    = local.environment_vars.locals.desired_count
-  container_cpu    = local.environment_vars.locals.container_cpu
-  container_port   = local.environment_vars.locals.container_port
-  container_memory = local.environment_vars.locals.container_memory
-  container_name   = "${local.project_name}-${local.env}-container"
-  cluster_name     = "${local.project_name}-${local.env}-cluster"
-  task_name        = "${local.project_name}-${local.env}-task"
+  desired_count     = local.environment_vars.locals.desired_count
+  container_cpu     = local.environment_vars.locals.container_cpu
+  container_port    = local.environment_vars.locals.container_port
+  container_memory  = local.environment_vars.locals.container_memory
+  health_check_path = local.environment_vars.locals.health_check_path
+  container_name    = "${local.project_name}-${local.env}-container"
+  cluster_name      = "${local.project_name}-${local.env}-cluster"
+  task_name         = "${local.project_name}-${local.env}-task"
 
   aws_region = local.region_vars.locals.aws_region
 
@@ -40,34 +41,34 @@ dependencies {
   paths = ["../network", "../rds", "../bastion", "../alb"]
 }
 dependency "network" {
-  config_path = "../network"
-  skip_outputs = true
+  config_path  = "../network"
+  // skip_outputs = true
   mock_outputs = {
-  vpc_id = "",
-  public_subnet_ids = ""
+  vpc_id            = "",
+  public_subnet_ids = []
   }
 }
 dependency "rds" {
-  config_path = "../rds"
-  skip_outputs = true
+  config_path  = "../rds"
+  // skip_outputs = true
   mock_outputs = {
-  db_security_group_id = "",
+  db_security_group_id    = "",
   aws_ssm_db_hostname_arn = "",
   aws_ssm_db_password_arn = ""
   }
 }
 dependency "bastion" {
-  config_path = "../bastion"
-  skip_outputs = true
+  config_path  = "../bastion"
+  // skip_outputs = true
   mock_outputs = {
   security_group_id = ""
   }
 }
 dependency "alb" {
-  config_path = "../alb"
-  skip_outputs = true
+  config_path  = "../alb"
+  // skip_outputs = true
   mock_outputs = {
-  security_group_id = "",
+  security_group_id    = "",
   alb_target_group_arn = ""
   }
 }
@@ -92,11 +93,12 @@ inputs = {
   environment = local.env
 
   // Container Variables
-  desired_count    = local.desired_count
-  container_memory = local.container_memory
-  container_cpu    = local.container_cpu
-  container_port   = local.container_port
-  container_name   = local.container_name
-  cluster_name     = local.cluster_name
-  task_name        = local.task_name
+  desired_count     = local.desired_count
+  container_memory  = local.container_memory
+  container_cpu     = local.container_cpu
+  container_port    = local.container_port
+  container_name    = local.container_name
+  cluster_name      = local.cluster_name
+  task_name         = local.task_name
+  health_check_path = local.health_check_path
 }
