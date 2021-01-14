@@ -12,10 +12,10 @@ locals {
   # Extract out common variables for reuse
   env = local.environment_vars.locals.environment
 
-  aws_region     = local.account_vars.locals.aws_region
-  aws_account_id = local.account_vars.locals.aws_account_id
-  namespace      = local.account_vars.locals.namespace
-  project_name   = local.account_vars.locals.project_name
+  aws_region               = local.account_vars.locals.aws_region
+  aws_account_id           = local.account_vars.locals.aws_account_id
+  namespace                = local.account_vars.locals.namespace
+  project_name             = local.account_vars.locals.project_name
   cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
   github_file              = local.account_vars.locals.github_file
 
@@ -39,13 +39,15 @@ dependency "network" {
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
+  // Input from other modules
   vpc_id            = dependency.network.outputs.vpc_id
   public_subnet_ids = dependency.network.outputs.public_subnet_ids
 
+  // Input from variables
   account_id = local.aws_account_id
   region     = local.aws_region
 
-  bastion_name = "bastion-${local.project_name}-${local.env}"
+  bastion_name          = "bastion-${local.project_name}-${local.env}"
   keys_update_frequency = local.cron_key_update_schedule
   github_file           = local.github_file
   key_name              = "cfsj-jumphost"

@@ -13,22 +13,12 @@ locals {
   env                    = local.environment_vars.locals.environment
   ecs_ec2_instance_count = local.environment_vars.locals.ecs_ec2_instance_count
 
-  // Container
-  desired_count    = local.environment_vars.locals.desired_count
-  container_cpu    = local.environment_vars.locals.container_cpu
-  container_port   = local.environment_vars.locals.container_port
-  container_memory = local.environment_vars.locals.container_memory
-  container_name   = "${local.project_name}-${local.env}-container"
-  cluster_name     = "${local.project_name}-${local.env}-cluster"
-  task_name        = "${local.project_name}-${local.env}-task"
-
   aws_region     = local.account_vars.locals.aws_region
   aws_account_id = local.account_vars.locals.aws_account_id
   namespace      = local.account_vars.locals.namespace
   project_name   = local.account_vars.locals.project_name
 
   envname = "${local.project_name}-${local.env}"
-
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -36,15 +26,22 @@ include {
 }
 
 dependencies {
-  paths = ["../network"]
+  paths = ["../network", "../alb"]
 }
 dependency "network" {
   config_path = "../network"
   // skip_outputs = true
   mock_outputs = {
-  vpc_id            = "",
-  vpc_cidr          = "",
-  private_subnet_ids = []
+  vpc_id             = "",
+  vpc_cidr           = "",
+  private_subnet_ids = [],
+  }
+}
+dependency "alb" {
+  config_path = "../alb"
+  // skip_outputs = true
+  mock_outputs = {
+  alb_security_group_id = "",
   }
 }
 
@@ -56,26 +53,13 @@ inputs = {
   vpc_id             = dependency.network.outputs.vpc_id
   vpc_cidr           = dependency.network.outputs.vpc_cidr
   private_subnet_ids = dependency.network.outputs.private_subnet_ids
-  // public_subnet_ids         = dependency.network.outputs.public_subnet_ids
+  public_subnet_ids  = dependency.network.outputs.public_subnet_ids
   // db_security_group_id      = dependency.rds.outputs.db_security_group_id
-  // aws_ssm_db_hostname_arn   = dependency.rds.outputs.aws_ssm_db_hostname_arn
-  // aws_ssm_db_password_arn   = dependency.rds.outputs.aws_ssm_db_password_arn
-  // bastion_security_group_id = dependency.bastion.outputs.security_group_id
-  // alb_security_group_id     = dependency.alb.outputs.security_group_id
+  alb_security_group_id = dependency.alb.outputs.security_group_id
   // alb_target_group_arn      = dependency.alb.outputs.alb_target_group_arn
 
   // // Input from Variables
-  // account_id  = local.aws_account_id
-  // region      = local.aws_region
   ecs_ec2_instance_count = local.ecs_ec2_instance_count
   environment            = local.env
-
-  // // Container Variables
-  // desired_count    = local.desired_count
-  // container_memory = local.container_memory
-  // container_cpu    = local.container_cpu
-  // container_port   = local.container_port
-  // container_name   = local.container_name
-  project_name = local.project_name
-  // task_name        = local.task_name
+  project_name           = local.project_name
 }

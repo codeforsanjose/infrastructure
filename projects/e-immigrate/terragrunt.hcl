@@ -39,7 +39,7 @@ dependency "network" {
   // skip_outputs = true
   mock_outputs = {
   vpc_id            = "",
-  public_subnet_ids = ""
+  public_subnet_ids = [],
   }
 }
 // dependency "rds" {
@@ -55,7 +55,7 @@ dependency "bastion" {
   config_path = "../../global-resources/bastion"
   // skip_outputs = true
   mock_outputs = {
-  security_group_id = ""
+  security_group_id = "",
   }
 }
 dependency "alb" {
@@ -63,7 +63,7 @@ dependency "alb" {
   // skip_outputs = true
   mock_outputs = {
   security_group_id    = "",
-  alb_target_group_arn = ""
+  alb_target_group_arn = "",
   }
 }
 dependency "ecs" {
@@ -71,7 +71,8 @@ dependency "ecs" {
   // skip_outputs = true
   mock_outputs = {
   cluster_name = "",
-  cluster_id   = ""
+  cluster_id   = "",
+  service_discovery_id = "",
   }
 }
 

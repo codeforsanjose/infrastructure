@@ -13,7 +13,6 @@ locals {
   env                = local.environment_vars.locals.environment
 
   aws_region = local.account_vars.locals.aws_region
-
   namespace    = local.account_vars.locals.namespace
   project_name = local.account_vars.locals.project_name
 

@@ -23,14 +23,6 @@ variable tags {
   type    = map
 }
 
-variable container_port {
-  type    = number
-}
-
-variable task_name {
-  type    = string
-}
-
 variable public_subnet_ids {
   description = "Public Subnets for where the ALB will be associated with"
   type = list(string)

@@ -11,7 +11,6 @@ locals {
 
   # Extract out common variables for reuse
   env            = local.environment_vars.locals.environment
-  container_port = local.environment_vars.locals.container_port
   tags           = local.environment_vars.locals.tags
 
   aws_region = local.account_vars.locals.aws_region
@@ -58,8 +57,5 @@ inputs = {
   environment  = local.env
   project_name = local.project_name
 
-  // Container Variables
-  container_port = local.container_port
-  task_name      = local.task_name
   tags           = local.tags
 }

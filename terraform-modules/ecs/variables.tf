@@ -19,9 +19,15 @@ variable "vpc_cidr" {
   default = "10.1.0.0/16"
 }
 
-variable "private_subnet_ids" {
+variable "public_subnet_ids" {
   type    = list(string)
 }
 
 variable "ecs_ec2_instance_count" {
+  type = number
+  default = 0
+}
+
+variable "alb_security_group_id" {
+  type = string
 }
