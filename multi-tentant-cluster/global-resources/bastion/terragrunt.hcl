@@ -15,7 +15,7 @@ locals {
   aws_region               = local.account_vars.locals.aws_region
   aws_account_id           = local.account_vars.locals.aws_account_id
   namespace                = local.account_vars.locals.namespace
-  project_name             = local.account_vars.locals.project_name
+  resource_name             = local.account_vars.locals.resource_name
   cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
   github_file              = local.account_vars.locals.github_file
 
@@ -47,7 +47,7 @@ inputs = {
   account_id = local.aws_account_id
   region     = local.aws_region
 
-  bastion_name          = "bastion-${local.project_name}-${local.env}"
+  bastion_name          = "bastion-${local.resource_name}-${local.env}"
   keys_update_frequency = local.cron_key_update_schedule
   github_file           = local.github_file
   key_name              = "cfsj-jumphost"

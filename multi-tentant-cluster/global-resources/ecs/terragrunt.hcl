@@ -12,13 +12,14 @@ locals {
   # Extract out common variables for reuse
   env                    = local.environment_vars.locals.environment
   ecs_ec2_instance_count = local.environment_vars.locals.ecs_ec2_instance_count
+  ecs_ec2_instance_type = local.environment_vars.locals.ecs_ec2_instance_type
 
   aws_region     = local.account_vars.locals.aws_region
   aws_account_id = local.account_vars.locals.aws_account_id
   namespace      = local.account_vars.locals.namespace
-  project_name   = local.account_vars.locals.project_name
+  resource_name   = local.account_vars.locals.resource_name
 
-  envname = "${local.project_name}-${local.env}"
+  envname = "${local.resource_name}-${local.env}"
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -32,16 +33,16 @@ dependency "network" {
   config_path = "../network"
   // skip_outputs = true
   mock_outputs = {
-  vpc_id             = "",
-  vpc_cidr           = "",
-  private_subnet_ids = [],
+  vpc_id            = "",
+  vpc_cidr          = "",
+  public_subnet_ids = [],
   }
 }
 dependency "alb" {
   config_path = "../alb"
   // skip_outputs = true
   mock_outputs = {
-  alb_security_group_id = "",
+  security_group_id = "",
   }
 }
 
@@ -50,16 +51,17 @@ inputs = {
   // // source = "./ecs-fargate"
 
   // // Input from other Modules
-  vpc_id             = dependency.network.outputs.vpc_id
-  vpc_cidr           = dependency.network.outputs.vpc_cidr
-  private_subnet_ids = dependency.network.outputs.private_subnet_ids
-  public_subnet_ids  = dependency.network.outputs.public_subnet_ids
+  vpc_id   = dependency.network.outputs.vpc_id
+  vpc_cidr = dependency.network.outputs.vpc_cidr
+  // private_subnet_ids = dependency.network.outputs.private_subnet_ids
+  public_subnet_ids = dependency.network.outputs.public_subnet_ids
   // db_security_group_id      = dependency.rds.outputs.db_security_group_id
   alb_security_group_id = dependency.alb.outputs.security_group_id
   // alb_target_group_arn      = dependency.alb.outputs.alb_target_group_arn
 
   // // Input from Variables
   ecs_ec2_instance_count = local.ecs_ec2_instance_count
+  ecs_ec2_instance_type = local.ecs_ec2_instance_type
   environment            = local.env
-  project_name           = local.project_name
+  resource_name           = local.resource_name
 }

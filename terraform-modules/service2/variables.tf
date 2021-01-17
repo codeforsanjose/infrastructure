@@ -1,5 +1,9 @@
 locals {
-  envname = "${var.project_name}-${var.environment}"
+  envname                = "${var.project_name}-${var.environment}"
+  ecs_service_name       = "${var.project_name}-${var.environment}-service"
+  task_definition_family = "${var.project_name}-${var.environment}-td"
+  task_name              = "${var.project_name}-${var.environment}-task"
+  container_name         = "${var.project_name}-${var.environment}-container"
 }
 // --------------------------
 // Global/General Variables
@@ -18,11 +22,14 @@ variable region {
 }
 
 variable environment {
-  type    = string
-  // default = "dev"
+  type = string
 }
 
-variable vpc_id {
+variable "host_name" {
+  type = string
+}
+
+variable "vpc_id" {
   description = "VPC ID"
 }
 
@@ -35,9 +42,9 @@ variable tags {
 // ECS/Fargat Variables
 // --------------------------
 
-// variable "service_discovery_id" {}
-variable "cluster_id" {}
-
+variable "asg_capacity_prov" {
+  type = string
+}
 variable container_cpu {
   type    = number
   default = 256
@@ -53,59 +60,34 @@ variable container_port {
   default = 80
 }
 
-variable task_name {
-  type    = string
-}
-
 variable health_check_path {
   type    = string
   default = "/"
 }
 
-variable container_name {
-  type    = string
+variable "cluster_id" {
+  type = string
 }
 
 variable cluster_name {
-  type    = string
+  type = string
 }
-
-// variable image_tag {
-//   description = "tag to be used for elastic container repositry image"
-//   default = "latest"
-// }
 
 variable desired_count {
   default = 1
   type    = number
 }
 
-// variable aws_ssm_db_hostname_arn {
-//   description = "AWS SSM ARN for DB Hostname"
-// }
-
-// variable aws_ssm_db_password_arn {
-//   description = "AWS SSM ARN for DB Password"
-// }
-
 variable public_subnet_ids {
   description = "VPB Public Subnets for where to place Fargate tasks"
-  type = list(string)
+  type        = list(string)
 }
 
-// variable db_security_group_id {
-//   description = "DB Security Groups to allow"
-// }
-
-// variable bastion_security_group_id {
-//   description = "Bastion security group to allow ingress ssh"
-// }
-
-// variable alb_security_group_id {
-//   description = "ALB Security Group to allow inbound/outbound traffic"
-// }
-
-variable alb_target_group_arn {
+variable "alb_target_group_arn" {
   description = "ALB Target group for where to place task definitions"
+}
+
+variable "alb_https_listener_arn" {
+  description = "ALB https listener arn for adding rule to"
 }
 

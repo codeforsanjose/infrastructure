@@ -5,11 +5,10 @@ locals {
   aws_account_id = "253016134262"
   aws_region     = "us-west-1"
   namespace    = "cfsj"
-  project_name = "multi-tenant"
+  resource_name = "multi-tenant"
 
   // datetime is going to be added to tags for terraform creation date
   datetime = { date_processed = formatdate("YYYYMMDDhhmmss", timestamp()) }
-
   
   cron_key_update_schedule = "5,0,*,* * * * *"
   github_file              = {

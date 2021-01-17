@@ -15,10 +15,7 @@ locals {
 
   aws_region = local.account_vars.locals.aws_region
   aws_account_id = local.account_vars.locals.aws_account_id
-  project_name   = local.account_vars.locals.project_name
-
-  // Container
-  task_name = "${local.project_name}-task"
+  resource_name   = local.account_vars.locals.resource_name
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -55,7 +52,7 @@ inputs = {
   account_id   = local.aws_account_id
   region       = local.aws_region
   environment  = local.env
-  project_name = local.project_name
+  resource_name = local.resource_name
 
   tags           = local.tags
 }

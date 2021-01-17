@@ -1,6 +1,6 @@
-output ecs_service_security_group_id {
-  value = aws_security_group.svc_sg.id
-}
+// output ecs_service_security_group_id {
+//   value = aws_security_group.svc_sg.id
+// }
 
 output service_id {
   value = aws_ecs_service.svc.id

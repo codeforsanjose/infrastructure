@@ -17,3 +17,7 @@ output "alb_target_group_arn" {
 output "alb_target_group_id" {
   value = aws_lb.alb.id
 }
+
+output "alb_https_listener_arn" {
+  value = aws_lb_listener.ssl.arn
+}

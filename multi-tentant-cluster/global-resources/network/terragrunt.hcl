@@ -14,7 +14,7 @@ locals {
 
   aws_region = local.account_vars.locals.aws_region
   namespace    = local.account_vars.locals.namespace
-  project_name = local.account_vars.locals.project_name
+  resource_name = local.account_vars.locals.resource_name
 
 }
 # Include all settings from the root terragrunt.hcl file
@@ -27,5 +27,5 @@ inputs = {
   region             = local.aws_region
   namespace          = local.namespace
   stage              = local.env
-  name               = "${local.project_name}-${local.env}"
+  name               = "${local.resource_name}-${local.env}"
 }

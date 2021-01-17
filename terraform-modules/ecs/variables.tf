@@ -1,8 +1,8 @@
 locals {
-  envname = "${var.project_name}-${var.environment}"
+  envname = "${var.resource_name}-${var.environment}"
 }
 
-variable "project_name" {
+variable "resource_name" {
   type    = string
 }
 
@@ -26,6 +26,11 @@ variable "public_subnet_ids" {
 variable "ecs_ec2_instance_count" {
   type = number
   default = 0
+}
+
+variable "ecs_ec2_instance_type" {
+  type = string
+  default = "t3.small"
 }
 
 variable "alb_security_group_id" {

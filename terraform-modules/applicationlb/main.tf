@@ -1,17 +1,17 @@
 resource "aws_lb" "alb" {
-  name               = "${var.project_name}-${var.environment}-lb"
+  name               = "${var.resource_name}-${var.environment}-lb"
   load_balancer_type = "application"
   subnets            = var.public_subnet_ids
   security_groups    = [aws_security_group.alb.id]
-  tags               = merge({ Name = var.project_name }, var.tags)
+  tags               = merge({ Name = var.resource_name }, var.tags)
 }
 
 resource "aws_security_group" "alb" {
-  name_prefix = var.project_name
-  description = "load balancer sg for ingress and egress to ${var.project_name}-${var.environment} containers"
+  name = "${var.resource_name}-${var.environment}-alb"
+  description = "load balancer SG for ingress to ${var.resource_name}-${var.environment} containers"
   vpc_id      = var.vpc_id
 
-  tags = merge({ Name = var.project_name }, var.tags)
+  tags = merge({ Name = "${var.resource_name}-${var.environment}-alb" }, var.tags)
 
   ingress {
     description = "HTTP from world"
@@ -35,7 +35,6 @@ resource "aws_security_group" "alb" {
      to_port     = 0
      protocol    = "-1"
      cidr_blocks = ["0.0.0.0/0"]
-     self        = true
    }
 }
 

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "${image}",
+    "cpu": ${container_cpu},
+    "memory": ${container_memory},
+    "portMappings": [
+      { "containerPort": ${container_port}, "hostPort": 0 }
+    ],
+    "essential": true,
+    "environment": [
+      { "name": "NODE_ENV", "value": "production" }
+    ]
+  }
+]

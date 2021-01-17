@@ -49,7 +49,7 @@ module "asg" {
 
   image_id             = data.aws_ami.amazon_linux_ecs.id
   key_name             = "cfsj-ecs-cluster-prod"
-  instance_type        = "t2.micro"
+  instance_type        = "t3.small"
   security_groups      = [aws_security_group.ecs_instance.id]
   iam_instance_profile = "ecsInstanceRole"
   user_data            = data.template_file.user_data.rendered
@@ -117,3 +117,9 @@ resource "aws_security_group" "ecs_instance" {
     Name = "ecs_container_instance_${local.envname}"
   }
 }
+
+// resource "aws_iam_role" "ecs_service_role" {
+//   name        = "${var.project_name}-${var.environment}-ecs-service"
+//   // name_prefix        = substr("task-${var.task_name}", 0, 6)
+//   assume_role_policy = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+// }

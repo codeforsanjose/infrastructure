@@ -9,3 +9,7 @@ output "cluster_id" {
 output "ecs_asg_arn" {
   value = module.asg.this_autoscaling_group_arn
 }
+
+output "asg_capacity_prov" {
+  value = aws_ecs_capacity_provider.prov1.name
+}
