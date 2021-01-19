@@ -1,7 +1,7 @@
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the
 # working directory, into a temporary folder, and execute your Terraform commands in that folder.
 terraform {
-  source = "../../../terraform-modules/service-client"
+  source = "../../../terraform-modules/service-api"
 }
 
 locals {
@@ -14,15 +14,16 @@ locals {
   env = local.environment_vars.locals.environment
 
   // Container
-  container_image  = local.project_vars.locals.container_image
-  desired_count    = local.project_vars.locals.desired_count
-  container_port   = local.project_vars.locals.container_port
-  container_cpu    = local.project_vars.locals.container_cpu
-  container_memory = local.project_vars.locals.container_memory
+  container_image    = local.project_vars.locals.container_image
+  desired_count      = local.project_vars.locals.desired_count
+  container_port     = local.project_vars.locals.container_port
+  container_cpu      = local.project_vars.locals.container_cpu
+  container_memory   = local.project_vars.locals.container_memory
   container_env_vars = local.project_vars.locals.container_env_vars
 
   project_name = local.project_vars.locals.project_name
   host_name    = local.project_vars.locals.host_name
+  url_path    = local.project_vars.locals.url_path
 
   aws_region     = local.account_vars.locals.aws_region
   aws_account_id = local.account_vars.locals.aws_account_id
@@ -35,7 +36,7 @@ include {
 }
 
 dependencies {
-  paths = ["../../global-resources/network", "../../global-resources/alb", "../../global-resources/ecs"]
+  paths = ["../../global-resources/network", "../../global-resources/alb", "../../global-resources/ecs", "../../global-resources/private-dns"]
 }
 dependency "network" {
   config_path = "../../global-resources/network"
@@ -72,6 +73,14 @@ dependency "ecs" {
   asg_capacity_prov = "",
   }
 }
+dependency "private-dns" {
+  config_path = "../../global-resources/private-dns"
+  // skip_outputs = true
+  mock_outputs = {
+  private_dns_id = "",
+  private_dns_name = "",
+  }
+}
 
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
@@ -84,6 +93,8 @@ inputs = {
   cluster_name           = dependency.ecs.outputs.cluster_name
   cluster_id             = dependency.ecs.outputs.cluster_id
   asg_capacity_prov      = dependency.ecs.outputs.asg_capacity_prov
+  private_dns_id         = dependency.private-dns.outputs.private_dns_id
+  private_dns_name         = dependency.private-dns.outputs.private_dns_name
 
   // Input from Variables
   account_id   = local.aws_account_id
@@ -91,12 +102,13 @@ inputs = {
   environment  = local.env
   project_name = local.project_name
   host_name    = local.host_name
+  url_path = local.url_path
 
   // Container Variables
-  container_image  = local.container_image
-  desired_count    = local.desired_count
-  container_port   = local.container_port
-  container_memory = local.container_memory
-  container_cpu    = local.container_cpu
+  container_image    = local.container_image
+  desired_count      = local.desired_count
+  container_port     = local.container_port
+  container_memory   = local.container_memory
+  container_cpu      = local.container_cpu
   container_env_vars = local.container_env_vars
 }

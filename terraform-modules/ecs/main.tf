@@ -99,9 +99,9 @@ resource "aws_security_group" "ecs_instance" {
   }
 
   ingress {
-    description = "Internal SSH for Bastion"
-    from_port   = 22
-    to_port     = 22
+    description = "All Internal traffic"
+    from_port   = 0
+    to_port     = 65535
     protocol    = "tcp"
     cidr_blocks = [ var.vpc_cidr ]
   }
