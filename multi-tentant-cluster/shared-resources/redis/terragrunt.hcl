@@ -15,7 +15,8 @@ locals {
   namespace      = local.account_vars.locals.namespace
   resource_name  = local.account_vars.locals.resource_name
 
-  env = local.environment_vars.locals.environment
+  env  = local.environment_vars.locals.environment
+  tags = local.environment_vars.locals.tags
 
   container_cpu    = local.environment_vars.locals.redis_container_cpu
   container_memory = local.environment_vars.locals.redis_container_memory
@@ -76,6 +77,7 @@ inputs = {
   region           = local.aws_region
   environment      = local.env
   resource_name    = local.resource_name
+  tags             = local.tags
   container_memory = local.container_memory
   container_cpu    = local.container_cpu
 }

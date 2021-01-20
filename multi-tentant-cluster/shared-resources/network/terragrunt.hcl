@@ -10,10 +10,10 @@ locals {
   account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env                = local.environment_vars.locals.environment
-
-  aws_region = local.account_vars.locals.aws_region
-  namespace    = local.account_vars.locals.namespace
+  env           = local.environment_vars.locals.environment
+  tags          = local.environment_vars.locals.tags
+  aws_region    = local.account_vars.locals.aws_region
+  namespace     = local.account_vars.locals.namespace
   resource_name = local.account_vars.locals.resource_name
 
 }
@@ -24,8 +24,9 @@ include {
 
 # These are the variables we have to pass in to use the module specified in the terragrunt configuration above
 inputs = {
-  region             = local.aws_region
-  namespace          = local.namespace
-  stage              = local.env
-  name               = "${local.resource_name}-${local.env}"
+  region    = local.aws_region
+  namespace = local.namespace
+  stage     = local.env
+  name      = "${local.resource_name}-${local.env}"
+  tags      = local.tags
 }

@@ -10,12 +10,12 @@ locals {
   account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env            = local.environment_vars.locals.environment
-  tags           = local.environment_vars.locals.tags
+  env  = local.environment_vars.locals.environment
+  tags = local.environment_vars.locals.tags
 
-  aws_region = local.account_vars.locals.aws_region
+  aws_region     = local.account_vars.locals.aws_region
   aws_account_id = local.account_vars.locals.aws_account_id
-  resource_name   = local.account_vars.locals.resource_name
+  resource_name  = local.account_vars.locals.resource_name
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -29,7 +29,7 @@ dependency "network" {
   config_path = "../network"
   // skip_outputs = true
   mock_outputs = {
-  vpc_id = "",
+  vpc_id            = "",
   public_subnet_ids = ""
   }
 }
@@ -49,10 +49,10 @@ inputs = {
   acm_certificate_arn = dependency.acm.outputs.acm_certificate_arn
 
   // Input from Variables
-  account_id   = local.aws_account_id
-  region       = local.aws_region
-  environment  = local.env
+  account_id    = local.aws_account_id
+  region        = local.aws_region
+  environment   = local.env
   resource_name = local.resource_name
 
-  tags           = local.tags
+  tags = local.tags
 }

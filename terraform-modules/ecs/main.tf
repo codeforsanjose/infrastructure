@@ -9,6 +9,7 @@ resource "aws_ecs_cluster" "cluster" {
     weight            = 100
   }
 
+  tags = var.tags
 }
 
 resource "aws_ecs_capacity_provider" "prov1" {
@@ -17,6 +18,8 @@ resource "aws_ecs_capacity_provider" "prov1" {
   auto_scaling_group_provider {
     auto_scaling_group_arn = module.asg.this_autoscaling_group_arn
   }
+
+  tags = var.tags
 }
 
 #----- ECS  Resources--------
@@ -113,13 +116,5 @@ resource "aws_security_group" "ecs_instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "ecs_container_instance_${local.envname}"
-  }
+  tags = { Name = "ecs_container_instance_${local.envname}" }
 }
-
-// resource "aws_iam_role" "ecs_service_role" {
-//   name        = "${var.project_name}-${var.environment}-ecs-service"
-//   // name_prefix        = substr("task-${var.task_name}", 0, 6)
-//   assume_role_policy = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
-// }

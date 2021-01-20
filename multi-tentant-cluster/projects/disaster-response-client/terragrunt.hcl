@@ -35,10 +35,10 @@ include {
 }
 
 dependencies {
-  paths = ["../../global-resources/network", "../../global-resources/alb", "../../global-resources/ecs"]
+  paths = ["../../shared-resources/network", "../../shared-resources/alb", "../../shared-resources/ecs", "../disaster-response-api"]
 }
 dependency "network" {
-  config_path = "../../global-resources/network"
+  config_path = "../../shared-resources/network"
   // skip_outputs = true
   mock_outputs = {
   vpc_id            = "",
@@ -46,7 +46,7 @@ dependency "network" {
   }
 }
 // dependency "rds" {
-//   config_path  = "../../global-resources/rds"
+//   config_path  = "../../shared-resources/rds"
 //   // skip_outputs = true
 //   mock_outputs = {
 //   db_security_group_id    = "",
@@ -55,7 +55,7 @@ dependency "network" {
 //   }
 // }
 dependency "alb" {
-  config_path = "../../global-resources/alb"
+  config_path = "../../shared-resources/alb"
   // skip_outputs = true
   mock_outputs = {
   security_group_id      = "",
@@ -64,7 +64,7 @@ dependency "alb" {
   }
 }
 dependency "ecs" {
-  config_path = "../../global-resources/ecs"
+  config_path = "../../shared-resources/ecs"
   // skip_outputs = true
   mock_outputs = {
   cluster_name      = "",

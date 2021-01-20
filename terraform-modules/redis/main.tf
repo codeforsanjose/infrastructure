@@ -15,6 +15,7 @@ resource "aws_ecs_task_definition" "task" {
   network_mode             = "awsvpc"
   memory                   = var.container_memory == 0 ? null : var.container_memory
   cpu                      = var.container_cpu == 0 ? null : var.container_cpu
+  tags                     = var.tags
 }
 
 resource "aws_ecs_service" "svc" {
@@ -23,6 +24,7 @@ resource "aws_ecs_service" "svc" {
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = "EC2"
   desired_count   = var.desired_count
+  tags            = var.tags
 
   service_registries {
     registry_arn = aws_service_discovery_service.sd_service.arn

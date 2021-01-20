@@ -36,3 +36,8 @@ variable "ecs_ec2_instance_type" {
 variable "alb_security_group_id" {
   type = string
 }
+
+variable "tags" {
+  default = { terraform_managed = "true" }
+  type    = map
+}

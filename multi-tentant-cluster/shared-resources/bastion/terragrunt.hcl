@@ -10,15 +10,15 @@ locals {
   account_vars     = read_terragrunt_config(find_in_parent_folders("account.hcl"))
 
   # Extract out common variables for reuse
-  env = local.environment_vars.locals.environment
+  env  = local.environment_vars.locals.environment
+  tags = local.environment_vars.locals.tags
 
   aws_region               = local.account_vars.locals.aws_region
   aws_account_id           = local.account_vars.locals.aws_account_id
   namespace                = local.account_vars.locals.namespace
-  resource_name             = local.account_vars.locals.resource_name
+  resource_name            = local.account_vars.locals.resource_name
   cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
   github_file              = local.account_vars.locals.github_file
-
 }
 # Include all settings from the root terragrunt.hcl file
 include {
@@ -51,4 +51,6 @@ inputs = {
   keys_update_frequency = local.cron_key_update_schedule
   github_file           = local.github_file
   key_name              = "cfsj-jumphost"
+
+  tags = local.tags
 }

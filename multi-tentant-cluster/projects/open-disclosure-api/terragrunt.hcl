@@ -36,10 +36,10 @@ include {
 }
 
 dependencies {
-  paths = ["../../global-resources/network", "../../global-resources/alb", "../../global-resources/ecs", "../../global-resources/private-dns"]
+  paths = ["../../shared-resources/network", "../../shared-resources/alb", "../../shared-resources/ecs", "../../shared-resources/private-dns"]
 }
 dependency "network" {
-  config_path = "../../global-resources/network"
+  config_path = "../../shared-resources/network"
   // skip_outputs = true
   mock_outputs = {
   vpc_id            = "",
@@ -47,7 +47,7 @@ dependency "network" {
   }
 }
 // dependency "rds" {
-//   config_path  = "../../global-resources/rds"
+//   config_path  = "../../shared-resources/rds"
 //   // skip_outputs = true
 //   mock_outputs = {
 //   db_security_group_id    = "",
@@ -56,7 +56,7 @@ dependency "network" {
 //   }
 // }
 dependency "alb" {
-  config_path = "../../global-resources/alb"
+  config_path = "../../shared-resources/alb"
   // skip_outputs = true
   mock_outputs = {
   security_group_id      = "",
@@ -65,7 +65,7 @@ dependency "alb" {
   }
 }
 dependency "ecs" {
-  config_path = "../../global-resources/ecs"
+  config_path = "../../shared-resources/ecs"
   // skip_outputs = true
   mock_outputs = {
   cluster_name      = "",
@@ -74,7 +74,7 @@ dependency "ecs" {
   }
 }
 dependency "private-dns" {
-  config_path = "../../global-resources/private-dns"
+  config_path = "../../shared-resources/private-dns"
   // skip_outputs = true
   mock_outputs = {
   private_dns_id = "",
