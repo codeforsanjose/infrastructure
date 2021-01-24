@@ -1,10 +1,9 @@
 locals {
-
+  project_name = "open-disclosure-api"
   environment  = "dev"
   domain_name  = "codeforsanjose.org"
   host_name    = "open-disclosure.codeforsanjose.org"
-  url_path     = "/api"
-  project_name = "open-disclosure-api"
+  url_path     = "/open-disclosure/api"
 
   // Container variables
   container_image  = "253016134262.dkr.ecr.us-west-1.amazonaws.com/open-disclosure-backend:latest"

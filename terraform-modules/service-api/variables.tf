@@ -9,12 +9,12 @@ locals {
 // Global/General Variables
 // --------------------------
 variable account_id {
-  type = number
+  type        = number
   description = "AWS Account ID"
 }
 
 variable project_name {
-  type    = string
+  type        = string
   description = "The overall name of the project using this infrastructure; used to group related resources by"
 }
 
@@ -28,7 +28,7 @@ variable environment {
 }
 
 variable "vpc_id" {
-  type = string
+  type        = string
   description = "VPC ID"
 }
 
@@ -103,4 +103,10 @@ variable "alb_target_group_arn" {
 
 variable "alb_https_listener_arn" {
   description = "ALB https listener arn for adding rule to"
+}
+
+variable "health_check_path" {
+  type        = string
+  description = "ALB Target Group Health Check"
+  default     = "/"
 }

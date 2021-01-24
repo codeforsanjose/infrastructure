@@ -111,4 +111,5 @@ inputs = {
   container_memory   = local.container_memory
   container_cpu      = local.container_cpu
   container_env_vars = local.container_env_vars
+  health_check_path = "/open-disclosure/api/v1.0/"
 }
