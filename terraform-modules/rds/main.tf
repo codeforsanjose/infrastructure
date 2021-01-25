@@ -45,18 +45,6 @@ resource "aws_security_group" "db" {
   }
 }
 
-// TODO(1/2): Add Conditional using var.db_migration_flag
-// Pull latest existing snapshot for DB
-// data "aws_db_snapshot" "latest_db_snapshot" {
-//   db_instance_identifier = var.db_instance_id_migration
-//   most_recent            = true
-// }
-// resource "aws_db_snapshot" "test" {
-//   db_instance_identifier = var.db_instance_id_migration
-//   db_snapshot_identifier = "terraform-migration"
-//   tags                   = merge(var.tags, var.datetime)
-// }
-
 module "db" {
   source     = "terraform-aws-modules/rds/aws"
   // https://registry.terraform.io/modules/terraform-aws-modules/rds/aws/2.20.0
@@ -70,17 +58,11 @@ module "db" {
   instance_class              = var.db_instance_class
   allocated_storage           = 20
 
-  // db_subnet_group_name ="${var.project_name}-${var.environment}-subnet_group"
-  // parameter_group_name = "${var.project_name}-${var.environment}-param_group"
-  // option_group_name = "${var.project_name}-${var.environment}-option_group"
-
   name     = var.db_name
   username = var.db_username
   password = var.db_password
   port     = var.db_port
 
-  // TODO(2/2): Add Conditional using var.db_migration_flag
-  // snapshot_identifier = data.aws_db_snapshot.latest_db_snapshot.id
   snapshot_identifier = var.db_snapshot_migration
 
   vpc_security_group_ids = [aws_security_group.db.id]
