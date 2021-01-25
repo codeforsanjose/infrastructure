@@ -39,7 +39,9 @@ resource "aws_iam_user_policy" "gha_policy" {
                 "ecr:UploadLayerPart",
                 "ecr:InitiateLayerUpload",
                 "ecr:BatchCheckLayerAvailability",
-                "ecr:PutImage"
+                "ecr:PutImage",
+                "ecr:ListImages",
+                "ecr:CreateRepository"
             ],
             "Resource": "*"
         }
