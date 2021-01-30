@@ -24,6 +24,10 @@ resource "aws_instance" "bastion" {
  key_name                    = var.key_name
 
  tags = merge(var.tags, {Name = var.bastion_name})
+
+  lifecycle {
+    ignore_changes = [ associate_public_ip_address ]
+  }
 }
 
 // Pull latest Ubuntu AMI

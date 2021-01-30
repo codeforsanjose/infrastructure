@@ -17,8 +17,8 @@ locals {
   aws_account_id           = local.account_vars.locals.aws_account_id
   namespace                = local.account_vars.locals.namespace
   resource_name            = local.account_vars.locals.resource_name
-  cron_key_update_schedule = local.account_vars.locals.cron_key_update_schedule
-  github_file              = local.account_vars.locals.github_file
+  cron_key_update_schedule = local.environment_vars.locals.cron_key_update_schedule
+  github_file              = local.environment_vars.locals.github_file
 }
 # Include all settings from the root terragrunt.hcl file
 include {
