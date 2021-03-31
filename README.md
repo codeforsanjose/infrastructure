@@ -1,9 +1,4 @@
 # Under construction - github.com/darpham
-Deploys a RDS instance running postgres 11 into a private VPC, with an ssh
-bastion host for secure access.
-
-You might use this for creating the backend for a webapp.
-
 ## Overview
 This repository contains all the necessary modules needed to create the following resources in AWS.
 
