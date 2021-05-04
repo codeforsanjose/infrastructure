@@ -1,99 +1,112 @@
+locals {
+  envname = "${var.resource_name}-${var.environment}"
+}
+
 // --------------------------
 // General/Global Variables
 // --------------------------
-variable project_name {
-  description = "The overall name of the project using this infrastructure; used to group related resources by"
+variable "resource_name" {
+  type        = string
+  description = "The overall name of the shared resources"
 }
 
-variable vpc_id {
+variable "vpc_id" {
+  type        = string
   description = "VPC ID"
 }
 
-variable environment {
+variable "vpc_cidr" {
+  type        = string
+  description = "VPC cidr block"
+}
+
+variable "environment" {
+  type        = string
   description = "a short name describing the lifecyle or stage of development that this is running for; ex: 'dev', 'qa', 'prod', 'test'"
 }
-variable region {
+
+variable "region" {
+  type        = string
   description = "the aws region code where this is deployed; ex: 'us-west-2', 'us-east-1', 'us-east-2'"
 }
 
-variable private_subnet_cidrs {
-  description = "private subnet cidrs from where to place the RDS instance"
-  type = list(string)
+variable "private_subnet_cidrs" {
+  description = "vpc private subnets cidrs"
+  type        = list(string)
 }
 
-variable private_subnet_ids {
-  description = "private subnet ids from where to place the RDS instance"
-    type = list(string)
+variable "private_subnet_ids" {
+  description = "vpc private subnet ids"
+  type        = list(string)
 }
 
-variable tags {
+variable "public_subnet_cidrs" {
+  description = "vpc public subnets cidrs"
+  type        = list(string)
+}
+
+variable "public_subnet_ids" {
+  description = "vpc public subnet ids"
+  type        = list(string)
+}
+
+variable "tags" {
   default = { terraform_managed = "true" }
-  type    = map
-}
-
-variable datetime {
-  description = "Contains string of the datetime when terraform created the resource"
+  type    = map(any)
 }
 
 // --------------------------
 // Database Variables
 // --------------------------
-variable db_username {
+variable "create_db_instance" {
+  type    = bool
+  default = false
+}
+
+variable "db_public_access" {
+  description = "Bool to control if instance is publicly accessible"
+  type        = bool
+  default     = false
+}
+
+variable "db_username" {
+  type        = string
   description = "The name of the default postgres user created by RDS when the instance is booted"
 }
 
-variable db_name {
-  description = "The name of the default postgres database created by RDS when the instance is booted"
-}
-variable db_password {
+variable "db_password" {
+  type        = string
   description = "The postgres database password created for the default database when the instance is booted"
 }
 
-variable db_port {
+variable "db_port" {
+  type        = number
   description = "database port"
+  default     = 5432
 }
 
-variable db_instance_class {
-  description = "The instance type of the db; defaults to db.t2.small"
-  default     = "db.t2.small"
+variable "db_instance_class" {
+  description = "The instance type of the db"
+  default     = "db.t3.small"
 }
-variable db_engine_version {
-  description = "the database major and minor version of postgres; default to 11.8"
-  default     = "11.8"
+variable "db_engine_version" {
+  description = "the database major and minor version of postgres"
+  default     = "13.1"
 }
-variable db_allow_major_engine_version_upgrade {
+variable "db_allow_major_engine_version_upgrade" {
   default = true
 }
 
-variable db_major_version {
-  default = "11"
+variable "db_major_version" {
+  default = "13"
 }
 
 
 // --------------------------
 // Migration Variables
 // --------------------------
-variable db_instance_id_migration {
-  description = "The database ID from which the new database will start using the latest snapshot"
-  default = "empty"
-}
-
-variable db_instance_region_migration {
-  description = "The database ID from which the new database will start using the latest snapshot"
-  default = "empty"
-}
-
-variable db_snapshot_migration {
-  description = "Name of snapshot that will used to for new database"
-}
-
-variable db_migration_flag {
-  description = "Flag to determine if new RDS instance will pull data from snapshot"
-  default     = 1
-}
-
-
-// Bastion SG
-variable bastion_security_group_id {
-  description = "bastion sg id to allow connection to rds"
+variable "db_snapshot_migration" {
+  type        = string
+  description = "Name of snapshot that will used to for new database, needs to in the same region"
+  default     = ""
 }

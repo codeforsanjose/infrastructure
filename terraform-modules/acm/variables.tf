@@ -1,8 +1,13 @@
-variable domain_name {
-  description = "The domain name where the application will be deployed, must already live in AWS"
+// --------------------------
+// Amazon Certificate Manager (ACM)
+// --------------------------
+
+variable "domain_names" {
+  type        = list(string)
+  description = "The domains where the applications will be deployed"
 }
 
-// variable subject_alternative_names {
-//   description = "Additional subject_alternative_names to be added to the certificate"
-//   type = list(string)
-// }
+variable "tags" {
+  default = { terraform_managed = "true" }
+  type    = map(any)
+}

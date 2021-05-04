@@ -1,16 +1,32 @@
-data "template_file" "container-definition" {
-  template = file("./templates/container-definition.json")
-  vars     = {
-    container_name   = local.container_name
-    container_cpu    = var.container_cpu
-    container_memory = var.container_memory == 0 ? 85 : var.container_memory
+module "application_container_def" {
+  source            = "cloudposse/ecs-container-definition/aws"
+  version           = "0.56.0"
+
+  container_name    = local.container_name
+  container_image   = "redislabs/rejson:latest"
+  container_cpu               = var.container_cpu
+  container_memory_reservation = 128
+  port_mappings = [
+    {
+      containerPort = 6379
+      hostPort      = 6379
+      protocol      = "tcp"
+    }
+  ]
+  log_configuration = {
+    logDriver = "awslogs"
+    options = {
+      awslogs-group         = format("ecs/%s", local.ecs_service_name)
+      awslogs-region        = var.region
+      awslogs-stream-prefix = "redis"
+    }
   }
 }
 
 resource "aws_ecs_task_definition" "task" {
   family = local.task_definition_family
 
-  container_definitions    = data.template_file.container-definition.rendered
+  container_definitions    = module.application_container_def.json_map_encoded_list
   requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
   memory                   = var.container_memory == 0 ? null : var.container_memory
@@ -58,5 +74,11 @@ resource "aws_security_group" "redis_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = merge({ Name = "${var.resource_name}-${var.environment}-redis" }, var.tags)
+  tags = merge({ Name = format("%s-redis", "${var.resource_name}-${var.environment}") }, var.tags)
+}
+
+// Create group for streaming application logs
+resource "aws_cloudwatch_log_group" "cwlogs" {
+  name              = format("ecs/%s", local.ecs_service_name)
+  retention_in_days = 14
 }

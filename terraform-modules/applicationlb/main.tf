@@ -1,17 +1,17 @@
 resource "aws_lb" "alb" {
-  name               = "${var.resource_name}-${var.environment}-lb"
+  name               = local.envname
   load_balancer_type = "application"
   subnets            = var.public_subnet_ids
   security_groups    = [aws_security_group.alb.id]
-  tags               = merge({ Name = var.resource_name }, var.tags)
+  tags               = merge({ Name = local.envname }, var.tags)
 }
 
 resource "aws_security_group" "alb" {
-  name = "${var.resource_name}-${var.environment}-alb"
-  description = "load balancer SG for ingress to ${var.resource_name}-${var.environment} containers"
+  name        = "${local.envname}-alb"
+  description = "load balancer SG for ingress to ${local.envname} containers"
   vpc_id      = var.vpc_id
 
-  tags = merge({ Name = "${var.resource_name}-${var.environment}-alb" }, var.tags)
+  tags = merge({ Name = format("%s-alb", local.envname) }, var.tags)
 
   ingress {
     description = "HTTP from world"
@@ -29,13 +29,13 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   egress {
-     description = "allow outbound traffic to the world"
-     from_port   = 0
-     to_port     = 0
-     protocol    = "-1"
-     cidr_blocks = ["0.0.0.0/0"]
-   }
+  egress {
+    description = "allow outbound traffic to the world"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_lb_listener" "http_redirect" {
@@ -59,13 +59,13 @@ resource "aws_lb_listener" "ssl" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
-  certificate_arn   = var.acm_certificate_arn
+  certificate_arn   = var.acm_certificate_arns[0]
 
   default_action {
     type = "redirect"
-    
+
     redirect {
-      host        = "www.codeforsanjose.org"
+      host        = var.default_alb_url
       path        = "/"
       query       = ""
       port        = "443"
@@ -73,4 +73,11 @@ resource "aws_lb_listener" "ssl" {
       status_code = "HTTP_301"
     }
   }
+}
+
+resource "aws_lb_listener_certificate" "example" {
+  for_each = toset(slice(var.acm_certificate_arns, 1, length(var.acm_certificate_arns)))
+
+  certificate_arn = each.value
+  listener_arn    = aws_lb_listener.ssl.arn
 }

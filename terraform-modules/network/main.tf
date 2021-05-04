@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 locals {
-  tags = merge(var.tags, {terraform_user_arn = data.aws_caller_identity.current.arn})
+  tags = merge(var.tags, { terraform_user_arn = data.aws_caller_identity.current.arn })
 }
 
 data "aws_availability_zones" "available" {
@@ -10,7 +10,7 @@ data "aws_availability_zones" "available" {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = var.name
+  name = local.envname
 
   cidr = var.vpc_cidr
 
@@ -26,5 +26,5 @@ module "vpc" {
 
   tags = local.tags
 
-  vpc_tags = merge( { Name = "${var.name}" }, local.tags )
+  vpc_tags = merge({ Name = local.envname }, local.tags)
 }

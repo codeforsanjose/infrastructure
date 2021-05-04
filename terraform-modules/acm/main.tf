@@ -1,6 +1,6 @@
-// Certificate was created manually, because we don't want Terraform to create/delete certifates unnecessarily.
-// Creating a new certificate requires DNS Domain Validatio, which is currently handled manually
+# Find a certificate that is issued
 data "aws_acm_certificate" "issued" {
-  domain   = "*.codeforsanjose.org"
+  for_each = toset(var.domain_names)
+  domain   = "*.${each.value}"
   statuses = ["ISSUED"]
 }
