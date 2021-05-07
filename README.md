@@ -4,7 +4,7 @@ This repository contains all the necessary modules needed to create the followin
 
 1. VPC (Virtual Private Cloud), including subnets, route tables, igw
 
-2. RDS Database instance, Postgres 12.5 within the private subnet 
+2. RDS Database instance, Postgres 12.5 within the private subnet
 
 3. Bastion server securely accessing the database or other services
 
@@ -109,7 +109,7 @@ variable "bastion_github_file"  = {
 ```
 ``` bash
 # List of Github Users allowed to access the bastion server
-# 
+#
 darpham
 # END OF FILE
 ```

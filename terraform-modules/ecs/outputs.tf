@@ -7,9 +7,20 @@ output "cluster_id" {
 }
 
 output "ecs_asg_arn" {
-  value = module.asg.this_autoscaling_group_arn
+  value = module.asg.autoscaling_group_arn
 }
 
 output "asg_capacity_prov" {
-  value = aws_ecs_capacity_provider.prov1.name
+  value = aws_ecs_capacity_provider.this.name
 }
+
+output "task_execution_role_arn" {
+  value = aws_iam_role.ecs_task_execution_role.arn
+}
+
+data "aws_caller_identity" "current" {}
+output "default_ecs_service_role_arn" {
+  value = format("arn:aws:iam::%s:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS", data.aws_caller_identity.current.account_id)
+}
+
+// element(concat(aws_iam_service_linked_role.ecs.*.arn, [data.aws_iam_role.lookup.arn]), 0)

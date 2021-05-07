@@ -1,0 +1,30 @@
+locals {
+  envname = "${var.resource_name}-${var.environment}"
+}
+
+// --------------------------
+// Global/General Variables
+// --------------------------
+variable "resource_name" {
+  type        = string
+  description = "The overall name of the shared resources"
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "tags" {
+  default = { terraform_managed = "true" }
+  type    = map(any)
+}
+
+variable "execution_role_arn" {
+  type        = string
+  description = "ECS task execution role with policy for accessing other AWS resources"
+}
+
+variable "default_ecs_service_role_arn" {
+  type        = string
+  description = "AWS service linked role created for default all ecs services"
+}

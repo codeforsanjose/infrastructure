@@ -1,8 +1,17 @@
+locals {
+  envname = "${var.resource_name}-${var.environment}"
+}
+
 // --------------------------
 // Global/General Variables
 // --------------------------
-variable "account_id" {
-  description = "AWS Account ID"
+variable "resource_name" {
+  type        = string
+  description = "The overall name of the shared resources"
+}
+
+variable "environment" {
+  type = string
 }
 
 variable "vpc_id" {
@@ -11,44 +20,15 @@ variable "vpc_id" {
 
 variable "tags" {
   default = { terraform_managed = "true" }
-  type    = map
-}
-
-// --------------------------
-// Security Group Variables
-// --------------------------
-variable "allowed_cidr" {
-  type = list(string)
-
-  default = [
-    "0.0.0.0/0",
-  ]
-
-  description = "A list of CIDR Networks to allow ssh access to."
-}
-
-variable "allowed_ipv6_cidr" {
-  type = list(string)
-
-  default = [
-    "::/0",
-  ]
-
-  description = "A list of IPv6 CIDR Networks to allow ssh access to."
-}
-
-variable "allowed_security_groups" {
-  type        = list(string)
-  default     = []
-  description = "A list of Security Group ID's to allow access to."
+  type    = map(any)
 }
 
 // --------------------------
 // Bastion Instance Variables
 // --------------------------
-variable "bastion_name" {
-  description = "Name given to the Bastion Server in tags.Name"
-  type = string
+variable "bastion_hostname" {
+  type        = string
+  description = "The hostname bastion, must be a subdomain of the domain_name"
 }
 
 variable "bastion_instance_type" {
@@ -63,36 +43,26 @@ variable "public_subnet_ids" {
 
 variable "key_name" {
   description = "SSH key to be added as the default AMI user"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 // --------------------------
-// User_Data.sh Variables
+// user_data.sh Variables
 // --------------------------
 variable "ssh_user" {
   default = "ubuntu"
 }
 
-variable "github_file" {
+variable "bastion_github_file" {
   type = map(string)
+  default = {
+    github_repo_owner = "codeforsanjose",
+    github_repo_name  = "Infrastructure",
+    github_branch     = "main",
+    github_filepath   = "bastion_github_users",
+  }
 }
-
-// variable "github_repo_owner" {
-//   type = string
-// }
-
-// variable "github_repo_name" {
-//   type = string
-// }
-
-// variable "github_branch" {
-//   type = string
-// }
-
-// variable "github_filepath" {
-//   type = string
-// }
 
 variable "enable_hourly_cron_updates" {
   default = "false"
@@ -104,5 +74,5 @@ variable "cron_key_update_schedule" {
 }
 
 variable "additional_user_data_script" {
-  default     = ""
+  default = ""
 }

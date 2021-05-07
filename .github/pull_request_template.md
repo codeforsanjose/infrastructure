@@ -32,7 +32,7 @@
 --------------------------
 ### :clipboard: Mandatory Checklist
 
-- [x] Example of a checked item (please remove when creating your Pull Request) 
+- [x] Example of a checked item (please remove when creating your Pull Request)
 
 - [ ] Linked to the Github Issues being addressed using the right sidebar :arrow_right:
 - [ ] Have you discussed these changes with the project leader(s)?

@@ -3,15 +3,16 @@ locals {
 }
 
 variable "resource_name" {
-  type    = string
+  type        = string
+  description = "The overall name of the shared resources"
 }
 
 variable "environment" {
-  type    = string
+  type = string
 }
 
 variable "vpc_id" {
-  type    = string
+  type = string
 }
 
 variable "vpc_cidr" {
@@ -20,16 +21,16 @@ variable "vpc_cidr" {
 }
 
 variable "public_subnet_ids" {
-  type    = list(string)
+  type = list(string)
 }
 
 variable "ecs_ec2_instance_count" {
-  type = number
+  type    = number
   default = 0
 }
 
 variable "ecs_ec2_instance_type" {
-  type = string
+  type    = string
   default = "t3.small"
 }
 
@@ -39,5 +40,10 @@ variable "alb_security_group_id" {
 
 variable "tags" {
   default = { terraform_managed = "true" }
-  type    = map
+  type    = map(any)
+}
+
+variable "key_name" {
+  type        = string
+  description = "pre-created SSH in AWS for access to the ECS EC2 Instance"
 }
