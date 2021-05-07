@@ -22,7 +22,6 @@ resource "aws_lb_target_group" "this" {
 }
 
 resource "aws_lb_listener_rule" "static" {
-  // count = length(var.https_listener_rules)
   listener_arn = var.alb_https_listener_arn
 
   action {

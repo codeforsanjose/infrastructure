@@ -1,6 +1,6 @@
 locals {
-  envname                = "${var.project_name}-${var.environment}"
-  envappname             = "${var.project_name}-${var.application_type}-${var.environment}"
+  envname    = "${var.project_name}-${var.environment}"
+  envappname = "${var.project_name}-${var.application_type}-${var.environment}"
 }
 
 // --------------------------

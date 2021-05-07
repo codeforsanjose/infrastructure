@@ -1,5 +1,5 @@
 data "aws_route53_zone" "selected" {
-  count = var.aws_managed_dns ? 1 : 0
+  count        = var.aws_managed_dns ? 1 : 0
   name         = regexall("[^.]*?.[^.]*?$", var.host_names[0])[0]
   private_zone = false
 }

@@ -1,10 +1,10 @@
 module "application_container_def" {
-  source            = "cloudposse/ecs-container-definition/aws"
-  version           = "0.56.0"
+  source  = "cloudposse/ecs-container-definition/aws"
+  version = "0.56.0"
 
-  container_name    = local.container_name
-  container_image   = "redislabs/rejson:latest"
-  container_cpu               = var.container_cpu
+  container_name               = local.container_name
+  container_image              = "redislabs/rejson:latest"
+  container_cpu                = var.container_cpu
   container_memory_reservation = 128
   port_mappings = [
     {

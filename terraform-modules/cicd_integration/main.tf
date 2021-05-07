@@ -52,10 +52,10 @@ resource "aws_iam_user_policy" "gha_policy" {
 
 output "access_key_id" {
   value     = aws_iam_access_key.gha_keys.id
-  sensitive = true
+  sensitive = false
 }
 
 output "secret_access_key_id" {
   value     = aws_iam_access_key.gha_keys.secret
-  sensitive = true
+  sensitive = false
 }

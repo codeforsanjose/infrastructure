@@ -21,12 +21,12 @@ locals {
 }
 
 module "application_container_def" {
-  source            = "cloudposse/ecs-container-definition/aws"
-  version           = "0.56.0"
+  source  = "cloudposse/ecs-container-definition/aws"
+  version = "0.56.0"
 
-  container_name    = local.envappname
-  container_image   = var.container_image
-  container_cpu               = var.container_cpu
+  container_name               = local.envappname
+  container_image              = var.container_image
+  container_cpu                = var.container_cpu
   container_memory_reservation = local.container_memory
   port_mappings = [
     {
@@ -39,8 +39,8 @@ module "application_container_def" {
   log_configuration = {
     logDriver = "awslogs"
     options = {
-      awslogs-group         = format("ecs/%s/%s", local.envname, var.application_type)
-      awslogs-region        = var.region
+      awslogs-group  = format("ecs/%s/%s", local.envname, var.application_type)
+      awslogs-region = var.region
     }
   }
 }
