@@ -2,7 +2,7 @@ locals {
   environment = "prod"
 
   // ALB
-  default_alb_url = "codeforsanjose.org"
+  default_alb_url = "www.codeforsanjose.org"
 
   // Amazon Certificate Manager
   // Hardcoding pre-created certificate to avoid reaching limit https://github.com/aws/aws-cdk/issues/5889
