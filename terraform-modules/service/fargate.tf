@@ -1,6 +1,7 @@
 resource "aws_ecs_service" "fargate" {
   count           = var.launch_type == "FARGATE" ? 1 : 0
   name            = local.envappname
+  enable_execute_command = true
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = var.launch_type
