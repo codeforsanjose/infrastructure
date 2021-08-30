@@ -5,21 +5,17 @@ from sqlalchemy import exc
 # Python 3.8
 def lambda_handler(event, context):
     environment = event["environment"]
-    new_db = f"event['new_db']_{environment}"
+    new_db = f"{event['new_db']}_{environment}"
     db_owner = f"{event['new_db_user']}_{environment}"
     new_password = event["new_db_password"]
-    new_schema = f"{new_db}_{environment}_schema"
 
     root_db_user = event["root_db_username"]
     root_db_password = event["root_db_password"]
     db_host = event["db_host"]
     database_url = f"postgresql://{root_db_user}:{root_db_password}@{db_host}/"
 
-    def engine(database):
-        db_url = database_url + database
-        return create_engine(db_url, isolation_level="AUTOCOMMIT")
-
-    engine = engine("postgres")
+    db_url = f"{database_url}postgres"
+    engine = create_engine(db_url, isolation_level="AUTOCOMMIT")
 
     sql_create_db_owner = f"""
     -- Create the schema owner
@@ -40,12 +36,13 @@ def lambda_handler(event, context):
         pass
 
     # Connect to new database
-    engine = engine(new_db)
+    db_url = f"{database_url}{new_db}"
+    engine = create_engine(db_url, isolation_level="AUTOCOMMIT")
 
     # Create new schema and search_path
     sql_new_schema = f"""
     -- Create new schema for new DB
-    CREATE SCHEMA {new_schema} AUTHORIZATION {db_owner};
+    CREATE SCHEMA {new_db} AUTHORIZATION {db_owner};
     -- Set search_path for the new user
     ALTER ROLE {db_owner} SET search_path TO {new_db};
     """

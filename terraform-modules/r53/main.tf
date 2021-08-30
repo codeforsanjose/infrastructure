@@ -1,5 +1,6 @@
 data "aws_route53_zone" "selected" {
   count        = var.domain_name == "" ? 0 : 1
+  
   name         = var.domain_name
   private_zone = false
 }

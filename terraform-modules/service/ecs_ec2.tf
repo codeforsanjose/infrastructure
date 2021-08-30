@@ -2,6 +2,7 @@
 resource "aws_ecs_service" "ec2" {
   count           = var.launch_type == "FARGATE" ? 0 : 1
   name            = local.envappname
+  enable_execute_command = true
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = var.launch_type
