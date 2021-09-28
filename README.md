@@ -29,7 +29,7 @@ This repository contains all the necessary modules needed to create the followin
     - [Documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 
 2. Binaries
-    - [Terraform >=v0.14](https://www.terraform.io/downloads.html)
+    - [Terraform >=v0.15](https://www.terraform.io/downloads.html)
 
 3. Terraform State and Lock files requires pre-created resources [Documentation](https://www.terraform.io/docs/language/settings/backends/s3.html)
     - S3 Bucket for storing state file
